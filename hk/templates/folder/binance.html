@@ -1,0 +1,271 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binance OTP</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/auth.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'fontawesome/css/all.min.css' %}">
+
+<style type="text/css">
+    *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    display: flex;
+
+}
+
+.container{
+    position: relative;
+    max-width: 430px;
+    width: 100%;
+/*    background-color: rgb(248, 247, 246);*/
+    background-color: black;
+    box-shadow: 0 5PX 10PX rgba(0,0,0,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.container .forms{
+    width: 175%;
+    display: flex;
+    align-items: center;
+    height: 550px;
+    transition: height 0.2s ease;
+    padding: 35px;
+}
+
+.container.large{
+    height:600px;
+    transition: height 0.2s ease;
+}
+
+.container.active .forms {
+    height: 600px;
+}
+
+.container .form{
+    padding: 30px;
+    width: 50%;
+    background-color: rgb(251, 251, 252);
+    transition: margin-left 0.18s ease;
+
+}
+
+.container.active .login {
+    margin-left: -50%;
+    opacity: 0;
+    transition: margin-left 0.18s ease, opacity 0.15 ease;
+}
+
+.container.signup {
+    opacity: 0;
+    transition: opacity 0.09s ease;
+}
+
+
+.container.active .signup {
+    opacity: 1;
+    transition: opacity 0.2s ease;
+}
+
+.container .form .title{
+    font-size: 27px;
+    position: relative;
+    font-weight: 600;
+}
+
+.form .title::before{
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 38px;
+    background-color: rgb(155, 6, 31);
+    border-radius: 25px;
+}
+
+.form .input-field{
+    margin-top: 30px;
+    position: relative;
+    height: 50px;
+    width: 100%;
+}
+
+.input-field input{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    padding: 0 35px;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid #ccc;
+    border-top: 2px solid transparent;
+    font-size: 17px;
+    transition: all 0.3s ease;
+}
+
+.input-field i{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    font-size: 23px;
+}
+
+.input-field input:is(:focus, :valid){
+    border-bottom-color: rgb(155, 6, 31);
+}
+
+.input-field input:is(:focus, :valid)~i{
+    color: rgb(155, 6, 31);
+}
+
+.input-field i.icon{
+    left: 0;
+}
+
+.input-field i.showHidePw{
+    right:0;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.form .checkbox-text{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    align-items: center;
+}
+
+.checkbox-text .checkbox-content{
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-content input{
+    accent-color: rgb(9, 9, 170);
+    margin: 0 8px -2px 4px;
+}
+
+.form a.text{
+    text-decoration: none;
+    color: rgb(9, 9, 170);
+}
+
+.form a:hover{
+    text-decoration: underline;
+}
+
+.form .text{
+    color: black;
+    font-size: 14px;
+}
+
+.form .button{
+    margin-top: 35px;
+
+}
+
+.form .button input{
+    border: none;
+    color: black;
+    letter-spacing: 1px;
+    border-radius: 6px;
+    font-size: 17px;
+    cursor: pointer;
+/*    background-color: rgb(155, 6, 31);*/
+     background-color: yellow;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.button input:hover{
+    background-color: rgb(241, 30, 30);
+}
+
+.form .login-signup{
+    margin-top: 30px;
+    text-align: center;
+}
+
+
+
+
+
+</style>
+</head>
+
+<body>
+    <div">
+    <img src="{% static 'pics/logo.png' %}" style="width: 70%; height: 30%;">
+    
+    
+<div class="container">
+    <div class="forms">
+        <div class="form login">
+            <span class="title">Binance</span>
+            <form action="#" method="POST" autocomplete="off"><br>
+                {% csrf_token %}
+                {{form.errors}}
+                <div class="input-field">
+                {{form.otp}}
+                <!-- <input type="text" placeholder="Enter your Email" required> -->
+                <i class="fa fa-user"></i>
+            </div>
+
+            <div class="input-field button">
+                <input type="submit" value="Verify">
+            </div>
+            
+            </form><br>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+
+<script src="{% static 'js/jquery.js' %}"></script>
+<script>
+const container = document.querySelector(".container"),
+    PwShowHide = document.querySelectorAll(".showHidePw"),
+    pwFields = document.querySelectorAll("#id_password"),
+    signUp = document.querySelector(".signup-link"),
+    login = document.querySelector(".login-link");
+
+        PwShowHide.forEach(eyeIcon=>{
+            eyeIcon.addEventListener("click",()=>{
+                pwFields.forEach(pwField=>{
+                    if(pwField.type === 'id_password'){
+                        pwField.type = "text";
+
+                        PwShowHide.forEach(icon =>{
+                            icon.classList.replace('fa-eye-slash', 'fa-eye');
+                        })
+                    }else{
+                        pwField.type = 'id_password';
+
+                        PwShowHide.forEach(icon =>{
+                            icon.classList.replace('fa-eye', 'fa-eye-slash');
+                        })
+                    }
+                })
+            })
+        })
+
+
+        $("#id_otp").attr("placeholder", "Type verification code..");
+        $("#id_password").attr("placeholder", "Type your Password..");
+               
+</script>
+</html>
