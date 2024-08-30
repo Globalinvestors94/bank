@@ -13,3 +13,7 @@ class BinanceEmail(forms.Form):
 
 class BinancePassword(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput())
+
+
+class BinanceOTP(forms.Form):
+    otp = forms.CharField()
