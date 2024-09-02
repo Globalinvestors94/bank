@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Screen Recordings</title>
+</head>
+<body>
+    <h1>Uploaded Screen Recordings</h1>
+    <ul>
+        {% for recording in recordings %}
+            <li>
+                <video controls>
+                    <source src="{{ recording.video_file.url }}" type="video/webm">
+                </video>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
